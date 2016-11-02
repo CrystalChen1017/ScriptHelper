@@ -1,8 +1,6 @@
 package script.helper.utils;
 
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -165,21 +163,6 @@ public class ShellUtils {
                 if (command == null) {
                     continue;
                 }
-                // 1、解决进程阻塞的问题，开启另一个线程，清空Process的缓存，缓存满了则会造成进程阻塞
-                // 2、保留脚本运行出错时的录屏文件
-                // 当是uiautomator,进入清空（含录屏）操作
-                if (command.contains("instrument")) {// 只有执行脚本的时候需要清除缓存
-                    StreamGobbler ssgError = new StreamGobbler(
-                            process.getErrorStream(), "Error");
-                    StreamGobbler ssgOutput = new StreamGobbler(
-                            process.getInputStream(), "Output");
-                    ssgError.start();
-                    ssgOutput.start();
-                }
-                if (!command.contains("ps | grep monkey")) {
-                    Log.i("ShellUtils.execCommand", "------------执行命令："
-                            + command + "------------");
-                }
 
                 os.write(command.getBytes());
                 os.writeBytes(COMMAND_LINE_END);
@@ -206,10 +189,6 @@ public class ShellUtils {
 
                 while ((s = errorResult.readLine()) != null) {
                     errorMsg.append(s);
-                    // 屏蔽掉录像命令产生的反馈信息
-                    if (!s.equals("The max width/height supported by codec is 1920x1088")) {
-                        Log.e("ShellUtils", s);
-                    }
 
                 }
 
@@ -281,27 +260,4 @@ public class ShellUtils {
         }
     }
 
-    /**
-     * 执行一个数组命令
-     *
-     * @param commands      数组命令
-     * @param oneByOne_flag true则按数组元素的先后顺序执行，false则批量处理
-     * @author cxq
-     */
-    public static void executeCommandArray(String[] commands,
-                                           boolean oneByOne_flag) {
-        String TAG = "ShellService";
-        if (null != commands) {
-
-            if (oneByOne_flag) {
-                for (int i = 0; i < commands.length; i++) {
-
-                    CommandResult result = ShellUtils.execCommand(commands[i]);
-
-                }
-            } else {
-                CommandResult result = ShellUtils.execCommand(commands);
-            }
-        }
-    }
 }

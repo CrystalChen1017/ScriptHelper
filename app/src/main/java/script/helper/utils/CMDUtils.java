@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 
 
 /**
- * 执行命令，不带流清空的操作
+ * execute cmd commands
  */
 public class CMDUtils {
 
@@ -25,10 +25,10 @@ public class CMDUtils {
 	}
 
 	/**
-	 * 执行命令
-	* @param 	command 命令
-	* @param	isShowCommand 是否显示执行的命令
-	* @param	isNeedResultMsg 是否反馈执行的结果
+	 *
+	* @param 	command command
+	* @param	isShowCommand  is commnan content showed
+	* @param	isNeedResultMsg is result needed
 	* @retrun CMD_Result
 	 */
 	public static CMD_Result runCMD(String command, boolean isShowCommand,
