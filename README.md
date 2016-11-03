@@ -34,12 +34,9 @@
         ...
 ```
 
-### 4. Add permission on \<manifest\> node in AndroidManifest.xml file:
+### 4. Copy /xml/detection_service_config.xml to your project's res dir:
 
-```
-<uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
-```
 
 ### 5. Add accessiblity service on \<application\> node in AndroidManifest.xml file:
 
@@ -52,6 +49,9 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/detection_service_config" />
             
 </service>
 ```
