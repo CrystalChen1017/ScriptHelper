@@ -1,6 +1,7 @@
 package script.helper.uiauto;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
@@ -129,6 +130,25 @@ public class AccessibilityServiceUtil {
     public static void clickOnScreen(int x, int y, AccessibilityNodeInfo nodeInfo) {
 
         Log.e(TAG, "clickOnScreen: " + x + " " + y);
+
+    }
+
+
+    public static void enterTextByViewId(String id, String text,AccessibilityNodeInfo nodeInfo)throws Exception {
+        List<AccessibilityNodeInfo> accessibilityNodeInfos = nodeInfo.findAccessibilityNodeInfosByViewId(id);
+        if (accessibilityNodeInfos == null || accessibilityNodeInfos.size() < 1) {
+            Exception e = new Exception("viewId = [" + id + "] not founded!");
+            throw e;
+        }
+        Bundle arguments = new Bundle();
+        arguments.putCharSequence(AccessibilityNodeInfo
+                .ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
+        for (int i = 0; i < accessibilityNodeInfos.size(); i++) {
+            if (accessibilityNodeInfos.get(i).isEnabled()) {
+                accessibilityNodeInfos.get(i).performAction(AccessibilityNodeInfo.ACTION_SET_TEXT,arguments);
+                SystemClock.sleep(500);
+            }
+        }
 
     }
 

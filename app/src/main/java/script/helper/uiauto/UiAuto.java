@@ -41,13 +41,17 @@ public class UiAuto {
      * @param actName app activity name,for example "com.android.camera.CameraLauncher"
      */
     public void lunchApp(String pkg, String actName) {
-        Intent intent = new Intent();
-        ComponentName cmp = new ComponentName(pkg, actName);
-        intent.setAction(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setComponent(cmp);
-        context.startActivity(intent);
+        try {
+            Intent intent = new Intent();
+            ComponentName cmp = new ComponentName(pkg, actName);
+            intent.setAction(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(cmp);
+            context.startActivity(intent);
+        }catch (Exception e){
+            Log.e(TAG, "lunchApp: "+e.getMessage());
+        }
     }
 
     /**
@@ -82,6 +86,21 @@ public class UiAuto {
         }
         try {
             AccessibilityServiceUtil.clickOnViewId(id, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        after();
+    }
+
+    public void enterTextByViewId(String id,String text) {
+        before();
+        AccessibilityNodeInfo list = DetectionService.getLastList();
+        if (list == null) {
+            Log.e(TAG, "enterTextByViewId: current view list is null!");
+            return;
+        }
+        try {
+            AccessibilityServiceUtil.enterTextByViewId(id, text,list);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -194,7 +213,7 @@ public class UiAuto {
         before();
         AccessibilityNodeInfo list = DetectionService.getLastList();
         if (list == null) {
-            Log.e(TAG, "clickOnViewId: current view list is null!");
+            Log.e(TAG, "clickOnScreen: current view list is null!");
             return;
         }
         try {

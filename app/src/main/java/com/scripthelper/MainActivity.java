@@ -1,5 +1,6 @@
 package com.scripthelper;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -47,9 +48,21 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 uiAuto.pressHome();
-                uiAuto.pressPower();
-//                uiAuto.lunchApp("com.android.camera","com.android.camera.CameraLauncher");
-//                uiAuto.clickOnViewId("com.android.camera:id/shutter_button");
+//                uiAuto.lunchApp("com.mlab.cam","com.android.camera.CameraLauncher");
+                Intent intent = new Intent();
+                ComponentName cmp = new ComponentName("com.mlab.cam","com.android.camera.CameraLauncher");
+                intent.setAction(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setComponent(cmp);
+                startActivity(intent);
+                uiAuto.clickOnText("下一步");
+                uiAuto.clickOnText("下一步");
+                uiAuto.clickOnText("完成");
+                uiAuto.clickOnText("备忘录");
+                uiAuto.clickOnText("备忘录");
+                uiAuto.clickOnText("添加");
+                uiAuto.enterTextByViewId("com.meitu.mobile.notes:id/note_container","123456");
                 //... something more
 
             }

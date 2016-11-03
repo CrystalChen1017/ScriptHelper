@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import script.helper.uiauto.AccessibilityServiceUtil;
 import script.helper.utils.DeviceUtils;
 
 
@@ -34,10 +35,13 @@ public class DetectionService extends AccessibilityService {
     }
 
 
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         Log.i("DetectionService", "DetectionService_onAccessibilityEvent: " + event.toString());
+
         lastList = getRootInActiveWindow();
+        AccessibilityServiceUtil.showCurrentContent(lastList);
     }
 
     @Override
